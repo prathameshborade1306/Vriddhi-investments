@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vriddhi SIP Calculator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fdf6f0;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(45deg, #a8d5ba, #f8cdda, #fddfa5);
+      padding: 1rem;
+      text-align: center;
+      color: #fff;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: #fff;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #88b68b;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      margin-top: 1.5rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #6c9c74;
+    }
+
+    .result {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background-color: #f0fff0;
+      border: 1px solid #b2dfdb;
+      border-radius: 10px;
+    }
+
+    .cta {
+      text-align: center;
+      background-color: #fdebd2;
+      padding: 2rem;
+      margin-top: 2rem;
+      border-radius: 15px;
+      font-size: 1.2rem;
+    }
+
+    .cta a {
+      display: inline-block;
+      margin-top: 1rem;
+      background-color: #ff8585;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .family-img {
+      width: 100%;
+      max-width: 600px;
+      margin: 2rem auto;
+      display: block;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .mf-link {
+      display: inline-block;
+      margin-top: 1rem;
+      background-color: #ffd966;
+      color: #333;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Vriddhi SIP vs Savings Calculator</h1>
+  </header>
+
+  <img src="https://img.freepik.com/free-photo/portrait-happy-indian-family_53876-25247.jpg" alt="Happy Indian Family" class="family-img"/>
+
+  <div class="container">
+    <label for="monthly">Monthly SIP Amount (₹)</label>
+    <input type="number" id="monthly" placeholder="e.g. 5000"/>
+
+    <label for="years">Investment Duration (Years)</label>
+    <input type="number" id="years" placeholder="e.g. 10"/>
+
+    <label for="rate">Expected Annual Return (%)</label>
+    <input type="number" id="rate" value="12"/>
+
+    <button onclick="calculateSIP()">Calculate</button>
+
+    <div class="result" id="result"></div>
+
+    <a href="https://dhan.co/mutual-funds/all-mutual-funds/" class="mf-link" target="_blank">Explore Mutual Funds</a>
+  </div>
+
+  <div class="cta">
+    <p><strong>Delaying investment could cost you your dreams.</strong><br/>
+    Start today and build your future with confidence. Your future self will thank you!</p>
+    <a href="mailto:your-email@example.com">Get in Touch with Vriddhi Investments</a>
+  </div>
+
+  <script>
+    function calculateSIP() {
+      const monthly = parseFloat(document.getElementById('monthly').value);
+      const years = parseInt(document.getElementById('years').value);
+      const rate = parseFloat(document.getElementById('rate').value);
+
+      if (!monthly || !years || !rate) {
+        alert("Please enter valid values!");
+        return;
+      }
+
+      const n = 12;
+      const r = rate / 100 / n;
+      const totalMonths = years * n;
+
+      const sipValue = monthly * ((Math.pow(1 + r, totalMonths) - 1) / r) * (1 + r);
+      const bankSavings = monthly * totalMonths * (1 + 0.035); // Assuming 3.5% flat savings account interest
+
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = `
+        <strong>Results after ${years} years:</strong><br/><br/>
+        <b>Total SIP Value:</b> ₹${sipValue.toFixed(0).toLocaleString()}<br/>
+        <b>Bank Savings Value:</b> ₹${bankSavings.toFixed(0).toLocaleString()}<br/><br/>
+        <b>Extra Returns via SIP:</b> ₹${(sipValue - bankSavings).toFixed(0).toLocaleString()}
+      `;
+    }
+  </script>
+
+</body>
+</html>
